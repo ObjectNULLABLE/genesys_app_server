@@ -1,4 +1,5 @@
 const express = require('express')
+var cors = require('cors')
 const bodyParser = require('body-parser');
 const routes = require('./app/routes');
 const mongoose = require('mongoose');
@@ -8,6 +9,10 @@ mongoose
   .connect('mongodb://168.119.152.228:27017/ru_data', {useNewUrlParser: true, useUnifiedTopology: true})
   .then(()=> {
     const app = express()
+
+    app.use(cors())
+
+    // app.options('*', cors())
 
     app.use(bodyParser.json())
 
