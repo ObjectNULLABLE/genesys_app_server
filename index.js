@@ -6,8 +6,12 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 mongoose
-  .connect('mongodb://168.119.152.228:27017/ru_data', {useNewUrlParser: true, useUnifiedTopology: true})
-  .then(()=> {
+  .connect('mongodb://genesys-app:gegenesys@168.119.152.228:27017/data?authSource=admin', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false 
+  })
+  .then((mongoInst)=> {
     const app = express()
 
     app.use(cors())

@@ -1,21 +1,34 @@
-const skillRouter = require("express").Router()
+const router = require("express").Router()
 const Skill = require("../models/skill")
 
-skillRouter.get("/", async (req, res) => {
-  const skills = await Skill.find()
+router.get("/:lang", async (req, res) => {
+  const skills = await Skill.find({lang: req.params.lang})
   res.send(skills)
-  console.log(skills)
+	res.end("OK")
 })
 
-skillRouter.post("/", async (req, res) => {
-	console.log(req.body)
-	
+router.post("/:lang", async (req, res) => {
 	const skill = new Skill(req.body)
-	console.log(skill)
+	skill.lang = req.params.lang
+	// console.log(skill)
 	await skill.save()
-	
-	res.send(`Add ${req.body.name}`)
-	// res.send(skill)
+	res.send(skill)
+	res.end("OK")
 })
 
-module.exports = skillRouter
+router.patch("/:skillID", async (req, res) => {
+	let skillToChange = await Skill.findByIdAndUpdate(req.params.skillID, req.body, {new: true})
+	console.log(skillToChange)
+	res.send(skillToChange)
+	res.end("OK")
+})
+
+
+router.delete("/:skillID", async (req, res) => {
+	let skillToDelete = await Skill.findByIdAndDelete(req.params.skillID)
+	console.log(skillToDelete)
+	res.send(skillToDelete)
+	res.end("OK")
+})
+
+module.exports = router

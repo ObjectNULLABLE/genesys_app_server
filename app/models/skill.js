@@ -10,6 +10,7 @@ const skillSchema = new Schema({
   useIf: String,
   notUseIf: String,
   sourceID: String,
+  lang: String,
 })
 
 module.exports = model('Skill', skillSchema)
