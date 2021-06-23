@@ -10,7 +10,6 @@ router.get("/:lang", async (req, res) => {
 router.post("/:lang", async (req, res) => {
 	const skill = new Skill(req.body)
 	skill.lang = req.params.lang
-	// console.log(skill)
 	await skill.save()
 	res.send(skill)
 	res.end("OK")

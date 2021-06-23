@@ -5,11 +5,11 @@ const skillSchema = new Schema({
   name: String,
   characteristic: String,
   worlds: Array,
-  type: String,
+  type: {type: String},
   description: String,
   useIf: String,
   notUseIf: String,
-  sourceID: String,
+  sourceID: { type: Schema.Types.ObjectId, ref: 'Source' },
   lang: String,
 })
 
