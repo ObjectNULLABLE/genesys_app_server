@@ -3,6 +3,7 @@ var cors = require('cors')
 const bodyParser = require('body-parser');
 const routes = require('./app/routes');
 const mongoose = require('mongoose');
+const initRoles = require('./app/utils/initializeRoles');
 require('dotenv').config();
 
 mongoose
@@ -11,7 +12,11 @@ mongoose
     useUnifiedTopology: true,
     useFindAndModify: false 
   })
-  .then((mongoInst)=> {
+  .then((mongoInst) => {
+    console.log("Successfully connect to MongoDB.")
+
+    initRoles()
+
     const app = express()
 
     app.use(cors())
@@ -25,6 +30,9 @@ mongoose
     app.listen(process.env.PORT || 3001, () => {
       console.log('Server started')
     })
+  })
+  .catch(err => {
+    console.error("Connection error: ", err);
   });
 
  
