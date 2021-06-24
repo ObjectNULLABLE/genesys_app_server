@@ -1,6 +1,5 @@
 const router = require("express").Router()
 const {verifySignUp} = require('../middlewares');
-const config = require("../config/auth.config");
 const User = require("../models/user");
 const Role = require("../models/role");
 
@@ -66,7 +65,7 @@ router.post("/signup",
         });
       }
     });
-  };
+  }
 )
 
 router.post("/signin", (req, res) => {
@@ -108,4 +107,7 @@ router.post("/signin", (req, res) => {
         accessToken: token
       });
     });
-};)
+  }
+)
+
+module.exports = router
