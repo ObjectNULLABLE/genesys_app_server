@@ -2,8 +2,14 @@ const User = require('../models/user');
 
 const ROLES = ["user", "admin", "moderator"]
 
+const emailRegex = RegExp(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)
+
 checkDuplicateUsernameOrEmail = (req, res, next) => {
   // Username
+  if (req.body.username.length <= 2) {
+    res.status(400).send({ message: "Failed! Username too short!" });
+    return;
+  }
   User.findOne({
     username: req.body.username
   }).exec((err, user) => {
@@ -18,6 +24,10 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
     }
 
     // Email
+    if (!emailRegex.test(req.body.email)) {
+      res.status(400).send({ message: "Failed! Please provide valid email!" });
+      return;
+    }
     User.findOne({
       email: req.body.email
     }).exec((err, user) => {
@@ -30,9 +40,13 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
         res.status(400).send({ message: "Failed! Email is already in use!" });
         return;
       }
-
       next();
     });
+    //Password
+    if (req.body.password.length < 4) {
+      res.status(400).send({ message: "Failed! Password should contain at least 4 characters!" });
+      return;
+    }
   });
 };
 
@@ -47,7 +61,6 @@ checkRolesExisted = (req, res, next) => {
       }
     }
   }
-
   next();
 };
 
