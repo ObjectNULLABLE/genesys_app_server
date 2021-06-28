@@ -1,4 +1,5 @@
 const router = require("express").Router()
+const { verifyToken, isModerator } = require("../middlewares/authJwt");
 const Weapon = require("../models/weapon")
 
 router.get("/:lang", async (req, res) => {
@@ -7,7 +8,7 @@ router.get("/:lang", async (req, res) => {
 	res.end("OK")
 })
 
-router.post("/:lang", async (req, res) => {
+router.post("/:lang", [verifyToken, isModerator], async (req, res) => {
 	const weapon = new Weapon(req.body)
 	weapon.lang = req.params.lang
 	await weapon.save()
@@ -15,7 +16,7 @@ router.post("/:lang", async (req, res) => {
 	res.end("OK")
 })
 
-router.patch("/:weaponID", async (req, res) => {
+router.patch("/:weaponID", [verifyToken, isModerator], async (req, res) => {
 	let weaponToChange = await Weapon.findByIdAndUpdate(req.params.weaponID, req.body, {new: true})
 	console.log(weaponToChange)
 	res.send(weaponToChange)
@@ -23,7 +24,7 @@ router.patch("/:weaponID", async (req, res) => {
 })
 
 
-router.delete("/:weaponID", async (req, res) => {
+router.delete("/:weaponID", [verifyToken, isModerator], async (req, res) => {
 	let weaponToDelete = await Weapon.findByIdAndDelete(req.params.weaponID)
 	console.log(weaponToDelete)
 	res.send(weaponToDelete)

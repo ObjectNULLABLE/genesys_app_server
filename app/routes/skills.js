@@ -1,4 +1,5 @@
 const router = require("express").Router()
+const { verifyToken, isModerator } = require("../middlewares/authJwt");
 const Skill = require("../models/skill")
 
 router.get("/:lang", async (req, res) => {
@@ -7,7 +8,7 @@ router.get("/:lang", async (req, res) => {
 	res.end("OK")
 })
 
-router.post("/:lang", async (req, res) => {
+router.post("/:lang", [verifyToken, isModerator], async (req, res) => {
 	const skill = new Skill(req.body)
 	skill.lang = req.params.lang
 	await skill.save()
@@ -15,7 +16,7 @@ router.post("/:lang", async (req, res) => {
 	res.end("OK")
 })
 
-router.patch("/:skillID", async (req, res) => {
+router.patch("/:skillID", [verifyToken, isModerator], async (req, res) => {
 	let skillToChange = await Skill.findByIdAndUpdate(req.params.skillID, req.body, {new: true})
 	console.log(skillToChange)
 	res.send(skillToChange)
@@ -23,7 +24,7 @@ router.patch("/:skillID", async (req, res) => {
 })
 
 
-router.delete("/:skillID", async (req, res) => {
+router.delete("/:skillID", [verifyToken, isModerator], async (req, res) => {
 	let skillToDelete = await Skill.findByIdAndDelete(req.params.skillID)
 	console.log(skillToDelete)
 	res.send(skillToDelete)

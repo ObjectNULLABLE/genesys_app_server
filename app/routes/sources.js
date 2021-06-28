@@ -1,4 +1,5 @@
 const router = require("express").Router()
+const { verifyToken, isModerator } = require("../middlewares/authJwt");
 const Source = require("../models/source")
 
 router.get("/:lang", async (req, res) => {
@@ -7,7 +8,7 @@ router.get("/:lang", async (req, res) => {
 	res.end("OK")
 })
 
-router.post("/:lang", async (req, res) => {
+router.post("/:lang", [verifyToken, isModerator], async (req, res) => {
 	const source = new Source(req.body)
 	source.lang = req.params.lang
 	await source.save()
@@ -15,7 +16,7 @@ router.post("/:lang", async (req, res) => {
 	res.end("OK")
 })
 
-router.patch("/:sourceID", async (req, res) => {
+router.patch("/:sourceID", [verifyToken, isModerator], async (req, res) => {
 	let sourceToChange = await Source.findByIdAndUpdate(req.params.sourceID, req.body, {new: true})
 	console.log(sourceToChange)
 	res.send(sourceToChange)
@@ -23,7 +24,7 @@ router.patch("/:sourceID", async (req, res) => {
 })
 
 
-router.delete("/:sourceID", async (req, res) => {
+router.delete("/:sourceID", [verifyToken, isModerator], async (req, res) => {
 	let sourceToDelete = await Source.findByIdAndDelete(req.params.sourceID)
 	console.log(sourceToDelete)
 	res.send(sourceToDelete)
