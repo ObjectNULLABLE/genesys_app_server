@@ -5,6 +5,7 @@ const Role = require("../models/role");
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+const { verifyToken } = require("../middlewares/authJwt");
 
 router.post("/signup",
   [
@@ -74,7 +75,6 @@ router.post("/signin", (req, res) => {
   })
     .populate("roles", "-__v")
     .exec((err, user) => {
-      console.log(err, user)
       if (err) {
         res.status(500).send({ message: err });
         return;
@@ -110,5 +110,25 @@ router.post("/signin", (req, res) => {
     });
   }
 )
+
+router.get('/user-info', [verifyToken], (req, res) => {
+  User.findById(req.userId)
+    .populate("roles", "-__v")
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+      res.status(200).send({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        roles: user.roles,
+      });
+  })
+})
 
 module.exports = router
