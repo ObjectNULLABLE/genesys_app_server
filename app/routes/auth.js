@@ -96,9 +96,16 @@ router.post("/signin", (req, res) => {
         });
       }
 
-      const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
-        expiresIn: 86400 // 24 hours
-      });
+      const token = jwt.sign(
+          {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            roles: user.roles,
+          },
+          process.env.TOKEN_SECRET,
+          { expiresIn: 86400 }
+        );
 
       res.status(200).send({
         id: user._id,
@@ -127,6 +134,7 @@ router.get('/user-info', [verifyToken], (req, res) => {
         username: user.username,
         email: user.email,
         roles: user.roles,
+        accessToken: req.headers["x-access-token"]
       });
   })
 })
