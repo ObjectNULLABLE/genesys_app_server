@@ -17,7 +17,7 @@ router.post("/:lang", [verifyToken, isModerator], async (req, res) => {
 })
 
 router.patch("/:qualityID", [verifyToken, isModerator], async (req, res) => {
-	let qualityToChange = await Quality.findByIdAndUpdate(req.params.qualityID, req.body, {new: true})
+	const qualityToChange = await Quality.findByIdAndUpdate(req.params.qualityID, req.body, {new: true})
 	console.log(qualityToChange)
 	res.send(qualityToChange)
 	res.end("OK")
@@ -25,7 +25,7 @@ router.patch("/:qualityID", [verifyToken, isModerator], async (req, res) => {
 
 
 router.delete("/:qualityID", [verifyToken, isModerator], async (req, res) => {
-	let qualityToDelete = await Quality.findByIdAndDelete(req.params.qualityID)
+	const qualityToDelete = await Quality.findByIdAndDelete(req.params.qualityID)
 	console.log(qualityToDelete)
 	res.send(qualityToDelete)
 	res.end("OK")

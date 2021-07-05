@@ -10,7 +10,7 @@ const weaponsRouter = require('./weapon');
 router.use(morgan('common'))
 
 router.get('/', async (req, res) => {
-  res.send(`Api working`)
+  res.send('Api working')
 })
 
 router.use("/auth", authRouter)
