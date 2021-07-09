@@ -7,7 +7,7 @@ const initRoles = require('./app/utils/initializeRoles');
 require('dotenv').config();
 
 mongoose
-  .connect('mongodb://genesys-app:gegenesys@168.119.152.228:27017/data?authSource=admin', {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false 
