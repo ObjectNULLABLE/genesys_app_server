@@ -6,6 +6,7 @@ const sourcesRouter = require('./sources')
 const qualitiesRouter = require('./quality');
 const talentsRouter = require('./talent');
 const weaponsRouter = require('./weapon');
+const adversaryRouter = require('./adversary');
 
 router.use(morgan('common'))
 
@@ -19,6 +20,6 @@ router.use("/sources", sourcesRouter)
 router.use("/qualities", qualitiesRouter)
 router.use("/talents", talentsRouter)
 router.use("/weapons", weaponsRouter)
-
+router.use("/adversaries", adversaryRouter)
 
 module.exports = router

@@ -6,6 +6,8 @@ const sourceSchema = new Schema({
   shortName: String,
   description: String,
   lang: String,
+  unofficialTranslation: Boolean,
+  owner: {type: Schema.Types.ObjectId, ref: 'User' }
 })
 
 module.exports = model('Source', sourceSchema)

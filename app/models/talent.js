@@ -9,7 +9,9 @@ const talentSchema = new Schema({
   description: String,
   worlds: [String],
   sourceID: { type: Schema.Types.ObjectId, ref: 'Source' },
-  lang: String
+  lang: String,
+  unofficialTranslation: Boolean,
+  owner: {type: Schema.Types.ObjectId, ref: 'User' }
 })
 
 module.exports = model('Talent', talentSchema)

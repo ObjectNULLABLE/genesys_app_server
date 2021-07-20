@@ -20,7 +20,9 @@ const adversarySchema = new Schema({
   worlds: [String],
   sourceID: { type: Schema.Types.ObjectId, ref: 'Source' },
   tags: [String],
-  lang: String
+  lang: String,
+  unofficialTranslation: Boolean,
+  owner: {type: Schema.Types.ObjectId, ref: 'User' }
 })
 
 module.exports = model('Adversary', adversarySchema)

@@ -7,6 +7,8 @@ const qualitySchema = new Schema({
   description: String,
   sourceID: { type: Schema.Types.ObjectId, ref: 'Source' },
   lang: String,
+  unofficialTranslation: Boolean,
+  owner: {type: Schema.Types.ObjectId, ref: 'User' }
 })
 
 module.exports = model('Quality', qualitySchema)
